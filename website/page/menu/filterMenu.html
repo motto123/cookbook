@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <title>Title</title>
+    <script src="../../static/scripts/jquery.js"></script>
+    <script src="../../static/scripts/main.js"></script>
+    <script src="../../static/scripts/storage.js"></script>
+    <link rel="stylesheet" href="../../static/css/main.css" type="text/css"/>
+</head>
+<style>
+    #main .tip {
+        margin-top: 1em;
+        margin-left: 1em;
+        font-size: 1.2em;
+    }
+
+    #main div input {
+        margin-left: 14em;
+        margin-top: 1.1em;
+    }
+
+
+</style>
+<body>
+<div id="header">
+    <input class="back" type="button" name="back" value="back" onclick="history.back(-1);"/>
+    <h3>菜单筛选</h3>
+</div>
+
+<div id="main">
+    <p class="tip">Tip: 小主请点菜!!!</p>
+    <div style="margin-top: 5em">
+        <input name="taste" type="radio" id="清淡">清淡<br>
+        <input name="taste" type="radio" value="微微辣">微微辣<br>
+        <input name="taste" type="radio" value="微辣" checked="true">微辣<br>
+        <input name="taste" type="radio" value="辣">辣<br>
+        <input name="taste" type="radio" value="很辣">很辣
+    </div>
+</div>
+<button class="bt" style="align-self: center; margin-top: 5em">确定</button>
+<ul id="random_ul">
+</ul>
+</div>
+
+</body>
+<script>
+    // const tasteArr = ["清淡", "微微辣", "微辣", "辣", "很辣"]
+    let tasteM = new Map()
+    tasteM.set("清淡", 0)
+    tasteM.set("微微辣", 1)
+    tasteM.set("微辣", 2)
+    tasteM.set("辣", 3)
+    tasteM.set("很辣", 4)
+    Storage.set("menu_cnt", 4)
+    $(function () {
+        $(".bt").click(() => {
+            let key = $("input[name='taste']:checked").val()
+            checkId = tasteM.get(key)
+            console.log(checkId)
+            Storage.set("spicyName", key)
+            Storage.set("spicy", checkId)
+            self.location = "./todayMenu.html"
+        })
+    })
+</script>
+</html>

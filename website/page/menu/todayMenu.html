@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <title>Title</title>
+    <script src="../../static/scripts/jquery.js"></script>
+    <script src="../../static/scripts/main.js"></script>
+    <script src="../../static/scripts/storage.js"></script>
+    <link rel="stylesheet" href="../../static/css/main.css" type="text/css"/>
+</head>
+<style>
+
+    #main {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    #random_ul {
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+    }
+
+    #random_ul p {
+        /*font-size: 36em;*/
+        /*list-style-type: none;*/
+        /*margin-right: 10px;*/
+        margin-bottom: 0.5em;
+        /*padding: 1% 5%;*/
+        border: 1px solid black;
+    }
+
+    #bt_ok {
+
+    }
+
+    #bt_again {
+        margin-top: 1em;
+    }
+</style>
+<body>
+<div id="header">
+    <input class="back" type="button" name="back" value="back" onclick="history.back(-1);"/>
+    <h3>今日菜单</h3>
+</div>
+
+<div id="main">
+    <p style="margin: 2em 0em">今日菜单如下:</p>
+    <p id="taste" style="margin-bottom: 0.5em;"></p>
+    <ul id="random_ul"></ul>
+    <button class="bt" id="bt_ok" style=" margin-top: 5em; width: 6em;">满意,上菜</button>
+    <button class="bt" id="bt_again" style=" margin-top: 2em; width: 9em;">不满意,换个口味</button>
+</div>
+</div>
+</body>
+<script>
+    function randomMenu() {
+        $.ajax(
+            {
+                type: "GET",
+                url: urlConf.randomMenu,
+                data: {
+                    "user_id": Storage.get("userId"),
+                    "spicy": Storage.get("spicy"),
+                    "cnt": Storage.get("menu_cnt"),
+                },
+                dataType: 'json',
+                success: function (data) {
+                    console.log(data.data)
+                    if (data.code != 300000) {
+                        alert(data.err)
+                        return
+                    }
+                    let dataArr = data.data.list
+                    for (let i = 0; i < dataArr.length; i++) {
+                        let singleP = `<p>${dataArr[i]['name']}</p>`
+                        $('#random_ul').append(singleP)
+                    }
+
+                },
+                error: function (e) {
+                    console.log(e)
+                }
+
+            }
+        )
+    }
+
+    $(function () {
+        $("#taste").text("口味: " + Storage.get("spicyName"))
+        randomMenu()
+        $("#bt_again").click(() => {
+            history.back(-1)
+        })
+        $("#bt_ok").click(() => {
+            randomMenu()
+        })
+
+    })
+</script>
+</html>

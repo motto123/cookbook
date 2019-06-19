@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <title>Title</title>
+    <script src="../../static/scripts/jquery.js"></script>
+    <script src="../../static/scripts/main.js"></script>
+    <script src="../../static/scripts/storage.js"></script>
+    <link rel="stylesheet" href="../../static/css/main.css" type="text/css"/>
+</head>
+<style>
+
+    #main {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    #random_ul {
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+    }
+
+    #random_ul li {
+        list-style-type: none;
+        margin-bottom: 0.5em;
+    }
+
+    #random_ul p {
+        border: 1px solid black;
+    }
+
+    .selected {
+        font-weight: bold;
+        background: #ff99cc;
+        color: #fff;
+    }
+
+
+</style>
+<body>
+<div id="header">
+    <input class="back" type="button" name="back" value="back" onclick="history.back(-1);"/>
+    <h3>定制菜谱</h3>
+</div>
+
+<div id="main">
+    <p style="margin: 2em 0em">现有菜单</p>
+    <ul id="random_ul"></ul>
+    <button class="bt" id="bt_ok" style=" margin-top: 5em; width: 6em;">确定</button>
+    <button class="bt" id="bt_again" style=" margin-top: 2em; width: 13em;">没有喜欢的快去添加吧!</button>
+</div>
+</div>
+</body>
+<script>
+    $(function () {
+        userId = Storage.get("userId")
+        let menuList = []
+        let selectItems = []
+        $.ajax({
+            type: "GET",
+            url: urlConf.getAllMenu,
+            data: {},
+            dataType: 'json',
+            success: function (data) {
+                console.log(data.data)
+                if (data.code != 300000) {
+                    alert(data.err)
+                    return
+                }
+                menuList = data.data
+                for (let i = 0; i < menuList.length; i++) {
+                    let item = `<li><p>${menuList[i]['name']}</p></li>`
+                    $('#random_ul').append(item)
+                }
+                $("#random_ul li").click(function () {
+                    index = $(this).index()
+                    let menu = menuList[index]
+                    menu.user_id = userId
+                    if ($(this).hasClass('selected')) {
+                        $(this).removeClass('selected');// 删除选中样式
+                        selectItems.remove(selectItems.indexOf(menu))
+                        return
+                    }
+                    $(this).addClass('selected');// 添加选中样式
+                    selectItems.push(menu)
+                })
+
+            },
+            error: function (e) {
+                console.log(e)
+            }
+
+        })
+
+        $("#bt_ok").click(function () {
+            console.log(selectItems)
+            $.ajax({
+                type: "POST",
+                url: urlConf.insertMenu,
+                headers: {'Content-Type': 'application/json;charset=utf8'},
+                data: JSON.stringify({
+                    'list': selectItems,
+                }),
+                // dataType: 'json',
+                success: function (data) {
+                    console.log(data)
+                    if (data.code != 300000) {
+                        alert('提交失败')
+                        return
+                    }
+                    cleanSelectedClass()
+                    alert('添加成功')
+                },
+                error: function (e) {
+                    console.log(e)
+                }
+            })
+        })
+
+        $('#bt_again').click(function () {
+            self.location = './addMenu.html'
+        })
+
+    })
+
+    function cleanSelectedClass() {
+        $("#random_ul li").click(function () {
+            $(this).removeClass('selected');// 删除选中样式
+        })
+    }
+
+</script>
+</html>

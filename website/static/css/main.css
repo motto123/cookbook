@@ -1,0 +1,104 @@
+body {
+    margin: auto;
+    padding: auto;
+    display: flex;
+    flex-direction: column;
+    /*background-color: red;*/
+}
+
+#header {
+    background: #000;
+    color: #FFF;
+    border-bottom: 1px solid black;
+    height: 3em;
+    line-height: 3em;
+}
+
+#header h3 {
+    margin: 0px 0px;
+    text-align: center;
+}
+
+#header .back {
+    position: absolute;
+    color: #FFF;
+    padding: 1em 1em;
+    margin: 0.5em 0.5em;
+}
+
+#main {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    padding: 1%;
+    /*background-color: aqua;*/
+}
+
+.bt {
+    width: 5em;
+    font-size: 1em;
+    border: 1px solid black;
+    padding: 0.3em;
+
+}
+
+
+/* CSS Document */
+html, body, div, span, object, iframe,h1, h2,
+h3, h4, h5, h6, p, blockquote, pre,abbr, address, cite, code,del, dfn,
+em, img, ins,kbd, q, samp,small, strong, sub, sup, var,b, i,dl, dt, dd,
+ol, ul, li,fieldset, form, label, legend,table, caption, tbody,
+tfoot,thead,tr, th, td,article, aside, canvas, details, figcaption,
+figure, footer, header, hgroup, menu, nav, section, summary,time, mark,
+audio, video {
+    margin:0;
+    padding:0;
+    border:0;
+    outline:0;
+    font-size:100%;
+    vertical-align:baseline;
+    background:transparent;
+    outline-style:none;/*FF*/
+}
+
+body {
+    line-height:1;
+}
+
+a{
+    margin:0;
+    padding:0;
+    border:0;
+    font-size:100%;
+    vertical-align:baseline;
+    background:transparent;
+
+}
+a:hover,a:focus{
+    text-decoration:none;
+    bblr:expression(this.onFocus=this.blur());/*IE*/
+    outline-style:none;/*FF*/
+}
+table {
+    border-collapse:collapse;
+    border-spacing:0;
+}
+
+input, select {
+    vertical-align:middle;
+}
+
+/*css为clearfix，清除浮动*/
+.clearfix::before,
+.clearfix::after{
+    content: "";
+    height: 0;
+    line-height: 0;
+    display: block;
+    visibility: hidden;
+    clear: both;
+}
+.clearfix:after{clear:both;}
+.clearfix{
+    *zoom:1;/*IE/7/6*/
+}

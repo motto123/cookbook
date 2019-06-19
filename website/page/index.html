@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <title>Title</title>
+    <!--<script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>-->
+    <script src="../static/scripts/jquery.js"></script>
+    <script src="../static/scripts/main.js"></script>
+    <script src="../static/scripts/storage.js"></script>
+    <link rel="stylesheet" href="../static/css/main.css" type="text/css"/>
+    <style>
+
+        #user_tool {
+            font-size: 40px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 4% 3% 1% 1%;
+
+        }
+
+        .user-id {
+            display: block;
+            margin: 10% 5% 0px 0px;
+            padding: 1% 5%;
+            text-decoration: none;
+        }
+
+        #user_id1 {
+            border: 2px solid green;
+        }
+
+        #user_id2 {
+            border: 2px solid blue;
+        }
+
+        #user_id3 {
+            border: 2px solid blueviolet;
+        }
+
+    </style>
+</head>
+<body>
+<div id="header">
+    <h3>陛下开饭了</h3>
+</div>
+
+
+<div id="user_tool">
+    <a class="user-id" id="user_id1">科</a>
+    <a class="user-id" id="user_id2">皮</a>
+    <a class="user-id" id="user_id3">雪</a>
+</div>
+<div id="nav"></div>
+<div id="main">
+</div>
+
+<div id="footer"></div>
+
+</body>
+<script>
+
+    users = [1, 2, 3]
+    $(function () {
+        console.log(urlConf)
+        $(".user-id").click(function () {
+            index = $(this).index()
+            let url = 'menu/home.html?userId=1'
+            switch (index) {
+                case 0 :
+                case 1:
+                    url = './menu/home.html?userId=2'
+                case 2:
+                    url = './menu/home.html?userId=3'
+            }
+            Storage.set("userId", users[index])
+            self.location = url
+        })
+    })
+</script>
+</html>
